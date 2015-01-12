@@ -1,0 +1,4 @@
+node_modules
+*.sublime-project
+*.sublime-workspace
+static/images/icons/svgs/#backup

@@ -1,0 +1,32 @@
+{
+  "name": "gulp",
+  "description": "Gulp Tasks Boilerplates",
+  "version": "0.1.0",
+  "homepage": "http://fallwater.ca",
+  "author": {
+    "name": "Jeff Waterfall",
+    "url": "http://fallwater.ca"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://bitbucket.org/plankguy/"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "./LICENSE-MIT"
+    }
+  ],
+  "devDependencies": {
+    "gulp": "^3.8.8",
+    "gulp-consolidate": "^0.1.2",
+    "gulp-iconfont": "^1.0.0",
+    "gulp-notify": "^1.8.0",
+    "gulp-rename": "^1.2.0",
+    "gulp-watch": "^1.0.7"
+  },
+  "dependencies": {
+    "gulp": "^3.8.8",
+    "lodash": "^2.4.1"
+  }
+}
