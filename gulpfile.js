@@ -1,30 +1,33 @@
+// Required Plugins
 var gulp        = require('gulp'),
     iconfont    = require('gulp-iconfont'), // https://github.com/nfroidure/gulp-iconfont
     consolidate = require('gulp-consolidate');
 
+// Define default paths
 var paths = {
-    static  : './static/',
-    images  : './static/images/',
-    css     : './static/css/',
-    scss    : './static/scss/',
-    js      : './static/js/',
-    fonts   : './static/fonts/'
+    static   : './static/',
+    images   : './static/images/',
+    css      : './static/css/',
+    scss     : './static/scss/',
+    js       : './static/js/',
+    fonts    : './static/fonts/',
+    templates: './static/templates/'
 };
 
-gulp.task('iconfont', function(){
+// Icon font task
+gulp.task('iconfont', function() {
     gulp.src( [paths.images + 'icons/svgs/*.svg'] )
         .pipe( iconfont({
-            fontName         : 'icons',  // required
-            //appendCodepoints : true      // recommended option
+            fontName : 'icons'
         }))
-        .on('codepoints', function(codepoints, options) {
+        .on('codepoints', function( codepoints, options ) {
             //gulp.src( paths.css + 'templates/iconfont.css' )
-            gulp.src( paths.css + 'templates/iconfont.css' )
+            gulp.src( paths.templates + 'iconfont.scss' )
                 .pipe( consolidate( 'lodash', {
-                    glyphs      : codepoints,
-                    fontName    : 'icons',
-                    fontPath    : '../fonts/',
-                    className   : 'i'
+                    glyphs    : codepoints,
+                    fontName  : 'icons',
+                    fontPath  : '../fonts/', // relative from dest
+                    className : 'i'
                 }))
                 .pipe( gulp.dest( paths.css ) );
         })
@@ -46,11 +49,12 @@ watcher.on('change', function(event) {
 
 gulp.task('watch', function() {
     // watch Icons
-    gulp.watch( paths.images+'icons/svgs/*.svg', ['iconfont'] ).on('change', function(event) {
-       console.log('Event type: ' + event.type); // added, changed, or deleted
-       console.log('Event path: ' + event.path); // The path of the modified file
-       //livereload.changed
-    });
+    watcher;
+    /*gulp.watch( paths.images+'icons/svgs/*.svg', ['iconfont'] ).on('change', function(event) {
+        console.log('Event type: ' + event.type); // added, changed, or deleted
+        console.log('Event path: ' + event.path); // The path of the modified file
+        //livereload.changed
+    });*/
 
     //livereload.listen();
 });
