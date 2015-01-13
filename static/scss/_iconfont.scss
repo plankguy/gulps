@@ -7,21 +7,53 @@
  * @template: iconfont.scss
  *
  * Copyright 2015 Jeff Waterfall
- *
- * TO DO: turn lists to maps?
  */
 
 // Icon Font Name:
 $iconFontBaseName: "icons";
 
 // Number of Icons:
-$iconFoundCount: 16;
+$iconFontCount: 16;
 
-// List of icon names:
-$iconFontList:   "i-checkmark", "i-facebook-box", "i-facebook", "i-googleplus-box", "i-googleplus", "i-instagram", "i-linkedin-box", "i-linkedin", "i-pinterest-box", "i-pinterest", "i-search", "i-tag", "i-twitter-box", "i-twitter", "i-vimeo-box", "i-youtube-box";
+// Map of icon names:
+$iconFontList: (
+    checkmark: "i-checkmark", 
+    facebook-box: "i-facebook-box", 
+    facebook: "i-facebook", 
+    googleplus-box: "i-googleplus-box", 
+    googleplus: "i-googleplus", 
+    instagram: "i-instagram", 
+    linkedin-box: "i-linkedin-box", 
+    linkedin: "i-linkedin", 
+    pinterest-box: "i-pinterest-box", 
+    pinterest: "i-pinterest", 
+    search: "i-search", 
+    tag: "i-tag", 
+    twitter-box: "i-twitter-box", 
+    twitter: "i-twitter", 
+    vimeo-box: "i-vimeo-box", 
+    youtube-box: "i-youtube-box"
+);
 
-// List of icon values:
-$iconFontValues: "\E001", "\E002", "\E003", "\E004", "\E005", "\E006", "\E007", "\E008", "\E009", "\E00A", "\E00B", "\E00C", "\E00D", "\E00E", "\E00F", "\E010";
+// Map of icon values:
+$iconFontValues: (
+    checkmark: "\E001", 
+    facebook-box: "\E002", 
+    facebook: "\E003", 
+    googleplus-box: "\E004", 
+    googleplus: "\E005", 
+    instagram: "\E006", 
+    linkedin-box: "\E007", 
+    linkedin: "\E008", 
+    pinterest-box: "\E009", 
+    pinterest: "\E00A", 
+    search: "\E00B", 
+    tag: "\E00C", 
+    twitter-box: "\E00D", 
+    twitter: "\E00E", 
+    vimeo-box: "\E00F", 
+    youtube-box: "\E010"
+);
 
 // Font Sources
 $iconFontSrc: url("../fonts/icons.eot");
@@ -50,70 +82,60 @@ $i-youtube-box: "\E010";
 
 
 // Icon Mixins:
-@include i-checkmark() {
+@mixin i-checkmark() {
     content: "\E001";
 }
-@include i-facebook-box() {
+@mixin i-facebook-box() {
     content: "\E002";
 }
-@include i-facebook() {
+@mixin i-facebook() {
     content: "\E003";
 }
-@include i-googleplus-box() {
+@mixin i-googleplus-box() {
     content: "\E004";
 }
-@include i-googleplus() {
+@mixin i-googleplus() {
     content: "\E005";
 }
-@include i-instagram() {
+@mixin i-instagram() {
     content: "\E006";
 }
-@include i-linkedin-box() {
+@mixin i-linkedin-box() {
     content: "\E007";
 }
-@include i-linkedin() {
+@mixin i-linkedin() {
     content: "\E008";
 }
-@include i-pinterest-box() {
+@mixin i-pinterest-box() {
     content: "\E009";
 }
-@include i-pinterest() {
+@mixin i-pinterest() {
     content: "\E00A";
 }
-@include i-search() {
+@mixin i-search() {
     content: "\E00B";
 }
-@include i-tag() {
+@mixin i-tag() {
     content: "\E00C";
 }
-@include i-twitter-box() {
+@mixin i-twitter-box() {
     content: "\E00D";
 }
-@include i-twitter() {
+@mixin i-twitter() {
     content: "\E00E";
 }
-@include i-vimeo-box() {
+@mixin i-vimeo-box() {
     content: "\E00F";
 }
-@include i-youtube-box() {
+@mixin i-youtube-box() {
     content: "\E010";
 }
 
 
-// Declare font face
-@include font-face() {
-    font-family: $iconFontBaseName;
-    src: $iconFontSrc;
-    src: $iconFontSrcs;
-    font-weight: normal;
-    font-style: normal;
-}
-
 // Icon Base Styles Mixin:
-@mixin icon() {
+@mixin i() {
     font-family: @iconFontBaseName;
     display: inline-block;
-    //vertical-align: middle;
     vertical-align: -7%;
     line-height: 1;
     font-weight: normal;
@@ -124,4 +146,15 @@ $i-youtube-box: "\E010";
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+// Declare font face
+@mixin fontFace() {
+    @font-face {
+        font-family: $iconFontBaseName;
+        src: $iconFontSrc;
+        src: $iconFontSrcs;
+        font-weight: normal;
+        font-style: normal;
+    }
 }

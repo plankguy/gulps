@@ -5,6 +5,7 @@ var gulp        = require('gulp'),
 
 // Define default paths
 var paths = {
+    tasks    : './tasks/',
     static   : './static/',
     images   : './static/images/',
     css      : './static/css/',
@@ -13,6 +14,9 @@ var paths = {
     fonts    : './static/fonts/',
     templates: './static/templates/'
 };
+
+// stub
+//requireDir( paths.tasks + 'iconfont' );
 
 // Icon font task
 gulp.task('iconfont', function() {

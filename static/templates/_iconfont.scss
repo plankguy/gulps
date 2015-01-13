@@ -7,21 +7,23 @@
  * @template: iconfont.scss
  *
  * Copyright 2015 Jeff Waterfall
- *
- * TO DO: turn lists to maps?
  */
 
 // Icon Font Name:
 $iconFontBaseName: "<%= fontName %>";
 
 // Number of Icons:
-$iconFoundCount: <%= glyphs.length %>;
+$iconFontCount: <%= glyphs.length %>;
 
-// List of icon names:
-$iconFontList:   <% _.each(glyphs, function(glyph, i) { %>"<%= className %>-<%= glyph.name %>"<% if( i !== (glyphs.length - 1) ) { %>, <% } }); %>;
+// Map of icon names:
+$iconFontList: (<% _.each(glyphs, function(glyph, i) { %>
+    <%= glyph.name %>: "<%= className %>-<%= glyph.name %>"<% if( i !== (glyphs.length - 1) ) { %>, <% } }); %>
+);
 
-// List of icon values:
-$iconFontValues: <% _.each(glyphs, function(glyph, i) { %>"\<%= glyph.codepoint.toString(16).toUpperCase() %>"<% if( i !== (glyphs.length - 1) ) { %>, <% } }); %>;
+// Map of icon values:
+$iconFontValues: (<% _.each(glyphs, function(glyph, i) { %>
+    <%= glyph.name %>: "\<%= glyph.codepoint.toString(16).toUpperCase() %>"<% if( i !== (glyphs.length - 1) ) { %>, <% } }); %>
+);
 
 // Font Sources
 $iconFontSrc: url("<%= fontPath %><%= fontName %>.eot");
@@ -35,25 +37,15 @@ $iconFontSrcs: url("<%= fontPath %><%= fontName %>.eot?#iefix") format("embedded
 <% }); %>
 
 // Icon Mixins:
-<% _.each(glyphs, function(glyph) { %>@include <%= className %>-<%= glyph.name %>() {
+<% _.each(glyphs, function(glyph) { %>@mixin <%= className %>-<%= glyph.name %>() {
     content: "\<%= glyph.codepoint.toString(16).toUpperCase() %>";
 }
 <% }); %>
 
-// Declare font face
-@include font-face() {
-    font-family: $iconFontBaseName;
-    src: $iconFontSrc;
-    src: $iconFontSrcs;
-    font-weight: normal;
-    font-style: normal;
-}
-
 // Icon Base Styles Mixin:
-@mixin icon() {
+@mixin <%= className %>() {
     font-family: @iconFontBaseName;
     display: inline-block;
-    //vertical-align: middle;
     vertical-align: -7%;
     line-height: 1;
     font-weight: normal;
@@ -64,4 +56,15 @@ $iconFontSrcs: url("<%= fontPath %><%= fontName %>.eot?#iefix") format("embedded
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+// Declare font face
+@mixin fontFace() {
+    @font-face {
+        font-family: $iconFontBaseName;
+        src: $iconFontSrc;
+        src: $iconFontSrcs;
+        font-weight: normal;
+        font-style: normal;
+    }
 }
