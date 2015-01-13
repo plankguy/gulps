@@ -22,14 +22,14 @@ gulp.task('iconfont', function() {
         }))
         .on('codepoints', function( codepoints, options ) {
             //gulp.src( paths.css + 'templates/iconfont.css' )
-            gulp.src( paths.templates + 'iconfont.scss' )
+            gulp.src( paths.templates + '_iconfont.scss' )
                 .pipe( consolidate( 'lodash', {
                     glyphs    : codepoints,
                     fontName  : 'icons',
                     fontPath  : '../fonts/', // relative from dest
                     className : 'i'
                 }))
-                .pipe( gulp.dest( paths.css ) );
+                .pipe( gulp.dest( paths.scss ) );
         })
         .on('codepoints', function( codepoints, options ) {
             // CSS templating, e.g.
