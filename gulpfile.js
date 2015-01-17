@@ -1,23 +1,29 @@
 // Required Plugins
 var gulp        = require('gulp'),
-    iconfont    = require('gulp-iconfont'), // https://github.com/nfroidure/gulp-iconfont
-    consolidate = require('gulp-consolidate');
+    $           = require('gulp-load-plugins')();
+//,
+//    iconfont    = require('gulp-iconfont'), // https://github.com/nfroidure/gulp-iconfont
+//    consolidate = require('gulp-consolidate');
 
 // Define default paths
 var paths = {
     tasks    : './tasks/',
-    static   : './static/',
-    images   : './static/images/',
-    css      : './static/css/',
-    scss     : './static/scss/',
-    js       : './static/js/',
-    fonts    : './static/fonts/',
-    templates: './static/templates/'
+    static   : 'static/',
+    images   : 'static/images/',
+    css      : 'static/css/',
+    scss     : 'static/scss/',
+    js       : 'static/js/',
+    fonts    : 'static/fonts/',
+    templates: 'static/templates/'
 };
 
 // stub
-//requireDir( paths.tasks + 'iconfont' );
+var iconfont = require( paths.tasks + 'iconfont' )(gulp, $, paths);
 
+console.log('iconfont:');
+console.log(iconfont);
+//gulp.loadTasks( paths.tasks + 'iconfont' );
+/*
 // Icon font task
 gulp.task('iconfont', function() {
     gulp.src( [paths.images + 'icons/svgs/*.svg'] )
@@ -42,10 +48,10 @@ gulp.task('iconfont', function() {
         .pipe( gulp.dest( paths.fonts ) );
 });
 
-/*
-var watcher = gulp.watch( paths.images + 'icons/svgs/*.svg', ['iconfont'] );
 
-watcher.on('change', function(event) {
+var watchIcons = gulp.watch( paths.images + 'icons/svgs/*.svg', ['iconfont'] );
+
+watchIcons.on('change', function(event) {
    console.log('Event type: ' + event.type); // added, changed, or deleted
    console.log('Event path: ' + event.path); // The path of the modified file
 });
@@ -53,12 +59,7 @@ watcher.on('change', function(event) {
 
 gulp.task('watch', function() {
     // watch Icons
-    watcher;
-    /*gulp.watch( paths.images+'icons/svgs/*.svg', ['iconfont'] ).on('change', function(event) {
-        console.log('Event type: ' + event.type); // added, changed, or deleted
-        console.log('Event path: ' + event.path); // The path of the modified file
-        //livereload.changed
-    });*/
+    //watchIcons;
 
     //livereload.listen();
 });
