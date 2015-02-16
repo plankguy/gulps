@@ -11,35 +11,51 @@
  * Copyright 2015 Jeff Waterfall
  */
 
-module.exports = function( gulp, plugins, paths ) {
-  "use strict";
+module.exports = function( gulp, _, plugins, settings ) {
+    "use strict"; 
+
+    // Default settings
+    var defaults = {
+        fontName    : 'icons',
+        cssClass    : 'i',
+        template    : './templates/_iconfont.scss',
+        paths : {
+            src       : './svgs/*.svg',
+            watch     : './svgs/*.svg',
+            scss      : './scss/',
+            fonts     : './fonts/',
+            cssurl    : '../fonts/'
+        }
+    };
+    // Extend defaults with settings params
+    settings = _.assign(defaults, settings);
 
     // Icon font task
     gulp.task('iconfont', function() {
-        gulp.src( paths.icons.src )
+        gulp.src( settings.paths.src )
             .pipe( plugins.iconfont({
-                fontName : 'icons'
+                fontName : settings.fontName
             }))
             .on('codepoints', function( codepoints, options ) {
                 //gulp.src( paths.css + 'templates/iconfont.css' )
-                gulp.src( paths.templates + '_iconfont.scss' )
+                gulp.src( settings.template )
                     .pipe( plugins.consolidate( 'lodash', {
                         glyphs    : codepoints,
-                        fontName  : 'icons',
-                        fontPath  : paths.icons.cssurl, // relative from dest
-                        className : 'i'
+                        fontName  : settings.fontName,
+                        fontPath  : settings.paths.cssurl, // relative from dest
+                        className : settings.cssClass
                     }))
-                    .pipe( gulp.dest( paths.scss ) );
+                    .pipe( gulp.dest( settings.paths.scss ) );
             })
             .on('codepoints', function( codepoints, options ) {
                 // CSS templating, e.g.
                 console.log( codepoints, options );
             })
-            .pipe( gulp.dest( paths.fonts ) );
+            .pipe( gulp.dest( settings.paths.fonts ) );
     });
 
     // Watch task
-    var watchIcons = gulp.watch( paths.icons.watch, ['iconfont'] );
+    var watchIcons = gulp.watch( settings.paths.watch, ['iconfont'] );
 
     // Watch events
     watchIcons.on('change', function(event) {
