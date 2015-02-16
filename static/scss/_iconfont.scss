@@ -56,11 +56,11 @@ $iconFontValues: (
 );
 
 // Font Sources
-$iconFontSrc: url("../fonts/icons.eot");
-$iconFontSrcs: url("../fonts/icons.eot?#iefix") format("embedded-opentype"),
-        url("../fonts/icons.woff") format("woff"),
-        url("../fonts/icons.ttf") format("truetype"),
-        url("../fonts/icons.svg?#icons") format("svg");
+$iconFontSrc: url("icons.eot");
+$iconFontSrcs: url("icons.eot?#iefix") format("embedded-opentype"),
+        url("icons.woff") format("woff"),
+        url("icons.ttf") format("truetype"),
+        url("icons.svg?#icons") format("svg");
 
 // Icons Variables:
 $i-checkmark: "\E001";
