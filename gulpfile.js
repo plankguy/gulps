@@ -43,22 +43,32 @@ var iconsSettings = {
         watch     : paths.images + 'icons/svgs/*.svg',
         cssurl    : '../fonts/'
     }
-}
-iconsSettings.paths = _.assign(iconsSettings.paths, paths);
+};
+//iconsSettings.paths = _.assign(iconsSettings.paths, paths);
 
 // Require Task
-var iconfont = require( paths.tasks + 'gulp.iconfont' )( gulp, _, plugins, iconsSettings );
+var iconfont = require( paths.tasks + 'gulp.iconfont' )( gulp, _, plugins, paths, iconsSettings );
 //console.log('iconfont watch task:');
 //console.log(iconfont);
 
 
 /*
- * SCSS
+ * Sass
  *
  ********************************************************
  */
 
-// goes here
+// Settings / Options
+var sassSettings = {
+    outputStyle : 'nested',
+//    paths       : {}
+};
+//sassSettings.paths = _.assign(sassSettings.paths, paths);
+
+// Require Task
+var sass = require( paths.tasks + 'gulp.sass' )( gulp, _, plugins, paths, sassSettings );
+//console.log('iconfont watch task:');
+//console.log(iconfont);
 
 
 
@@ -70,10 +80,8 @@ var iconfont = require( paths.tasks + 'gulp.iconfont' )( gulp, _, plugins, icons
  */
 
 gulp.task('watch', function() {
-    // watch Icons
     iconfont;
-    //watchIcons;
-
+    sass;
     //livereload.listen();
 });
 

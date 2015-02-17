@@ -5,13 +5,16 @@
  * @author:     Jeff Waterfall
  * @source:     https://github.com/nfroidure/gulp-iconfont
  * @dependencies:
+ *      - https://github.com/gulpjs/gulp
+ *      - https://lodash.com/
  *      - https://github.com/nfroidure/gulp-iconfont
  *      - https://github.com/timrwood/gulp-consolidate
+ *      - https://github.com/mikaelbr/gulp-notify
  *
  * Copyright 2015 Jeff Waterfall
  */
 
-module.exports = function( gulp, _, plugins, settings ) {
+module.exports = function( gulp, _, plugins, paths, settings ) {
     "use strict"; 
 
     // Default settings
@@ -30,6 +33,8 @@ module.exports = function( gulp, _, plugins, settings ) {
     // Extend defaults with settings params
     settings = _.assign(defaults, settings);
 
+console.log(settings);
+
     // Icon font task
     gulp.task('iconfont', function() {
         gulp.src( settings.paths.src )
@@ -37,7 +42,6 @@ module.exports = function( gulp, _, plugins, settings ) {
                 fontName : settings.fontName
             }))
             .on('codepoints', function( codepoints, options ) {
-                //gulp.src( paths.css + 'templates/iconfont.css' )
                 gulp.src( settings.template )
                     .pipe( plugins.consolidate( 'lodash', {
                         glyphs    : codepoints,
@@ -45,13 +49,16 @@ module.exports = function( gulp, _, plugins, settings ) {
                         fontPath  : settings.paths.cssurl, // relative from dest
                         className : settings.cssClass
                     }))
-                    .pipe( gulp.dest( settings.paths.scss ) );
+                    .pipe( gulp.dest( paths.scss ) );
             })
             .on('codepoints', function( codepoints, options ) {
                 // CSS templating, e.g.
                 console.log( codepoints, options );
             })
-            .pipe( gulp.dest( settings.paths.fonts ) );
+            .pipe( gulp.dest( paths.fonts ) )
+            .pipe( notify({
+                message : 'Iconfont task complete'
+            }));
     });
 
     // Watch task
