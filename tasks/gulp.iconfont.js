@@ -1,4 +1,5 @@
-/* 
+/**
+ *
  * Iconfont Task
  *
  * @url:        http://fallwater.ca/
@@ -10,8 +11,10 @@
  *      - https://github.com/nfroidure/gulp-iconfont
  *      - https://github.com/timrwood/gulp-consolidate
  *      - https://github.com/mikaelbr/gulp-notify
+ *      - https://github.com/hparra/gulp-rename
  *
  * Copyright 2015 Jeff Waterfall
+ *
  */
 
 module.exports = function( gulp, _, plugins, paths, settings ) {
@@ -22,18 +25,17 @@ module.exports = function( gulp, _, plugins, paths, settings ) {
         fontName    : 'icons',
         cssClass    : 'i',
         template    : './templates/_iconfont.scss',
+        fileName    : '_icons.scss',
         paths : {
-            src       : './svgs/*.svg',
-            watch     : './svgs/*.svg',
-            scss      : './scss/',
-            fonts     : './fonts/',
-            cssurl    : '../fonts/'
+            src     : './svgs/*.svg',
+            dest    : './scss/',
+            watch   : './svgs/*.svg',
+            fonts   : './fonts/',
+            cssurl  : '../fonts/' // relative from css file, or absolute
         }
     };
     // Extend defaults with settings params
     settings = _.assign(defaults, settings);
-
-console.log(settings);
 
     // Icon font task
     gulp.task('iconfont', function() {
@@ -49,14 +51,15 @@ console.log(settings);
                         fontPath  : settings.paths.cssurl, // relative from dest
                         className : settings.cssClass
                     }))
-                    .pipe( gulp.dest( paths.scss ) );
+                    .pipe( plugins.rename( settings.fileName ) )
+                    .pipe( gulp.dest( settings.paths.dest ) );
             })
             .on('codepoints', function( codepoints, options ) {
                 // CSS templating, e.g.
                 console.log( codepoints, options );
             })
             .pipe( gulp.dest( paths.fonts ) )
-            .pipe( notify({
+            .pipe( plugins.notify({
                 message : 'Iconfont task complete'
             }));
     });

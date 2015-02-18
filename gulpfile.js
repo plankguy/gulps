@@ -1,5 +1,6 @@
-/* 
- * Iconfont Task
+/**
+ *
+ * Gulp Tasks
  *
  * @url:        http://fallwater.ca/
  * @author:     Jeff Waterfall
@@ -9,6 +10,7 @@
  *      - https://github.com/jackfranklin/gulp-load-plugins
  *
  * Copyright 2015 Jeff Waterfall
+ *
  */
 
 // Required Plugins
@@ -29,7 +31,8 @@ var paths = {
 };
 
 
-/*
+/**
+ *
  * Iconfont
  *
  ********************************************************
@@ -38,21 +41,21 @@ var paths = {
 // Settings / Options
 var iconsSettings = {
     template    : paths.templates + '_iconfont.scss',
+    fileName    : '__iconfont.scss',
     paths : {
-        src       : paths.images + 'icons/svgs/*.svg',
-        watch     : paths.images + 'icons/svgs/*.svg',
-        cssurl    : '../fonts/'
+        src     : paths.images + 'icons/svgs/*.svg',
+        dest    : paths.scss + 'utilities/',
+        watch   : paths.images + 'icons/svgs/*.svg',
+        cssurl  : '../fonts/'
     }
 };
-//iconsSettings.paths = _.assign(iconsSettings.paths, paths);
 
 // Require Task
 var iconfont = require( paths.tasks + 'gulp.iconfont' )( gulp, _, plugins, paths, iconsSettings );
-//console.log('iconfont watch task:');
-//console.log(iconfont);
 
 
-/*
+/**
+ *
  * Sass
  *
  ********************************************************
@@ -60,20 +63,17 @@ var iconfont = require( paths.tasks + 'gulp.iconfont' )( gulp, _, plugins, paths
 
 // Settings / Options
 var sassSettings = {
-    outputStyle : 'nested',
-//    paths       : {}
+    outputStyle : 'nested'
 };
-//sassSettings.paths = _.assign(sassSettings.paths, paths);
 
 // Require Task
 var sass = require( paths.tasks + 'gulp.sass' )( gulp, _, plugins, paths, sassSettings );
-//console.log('iconfont watch task:');
-//console.log(iconfont);
 
 
 
 
-/*
+/**
+ *
  * Watch
  *
  ********************************************************

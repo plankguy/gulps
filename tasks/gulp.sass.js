@@ -1,4 +1,5 @@
-/* 
+/**
+ *
  * Sass Task
  *
  * @url:        http://fallwater.ca/
@@ -11,6 +12,7 @@
  *      - https://github.com/mikaelbr/gulp-notify
  *
  * Copyright 2015 Jeff Waterfall
+ *
  */
 
 module.exports = function( gulp, _, plugins, paths, settings ) {
@@ -28,8 +30,6 @@ module.exports = function( gulp, _, plugins, paths, settings ) {
     };
     // Extend defaults with settings params
     settings = _.assign(defaults, settings);
-
-console.log(settings);
 
     // Sass task
     gulp.task('sass', function () {

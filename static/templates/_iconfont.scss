@@ -44,7 +44,7 @@ $iconFontSrcs: url("<%= fontPath %><%= fontName %>.eot?#iefix") format("embedded
 
 // Icon Base Styles Mixin:
 @mixin <%= className %>() {
-    font-family: @iconFontBaseName;
+    font-family: $iconFontBaseName;
     display: inline-block;
     vertical-align: -7%;
     line-height: 1;
