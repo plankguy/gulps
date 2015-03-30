@@ -9,9 +9,9 @@
  *      - https://lodash.com/
  *      - https://github.com/jackfranklin/gulp-load-plugins
  *
- * Copyright 2015 Jeff Waterfall
- *
  */
+
+"use strict";
 
 // Required Plugins
 var gulp        = require('gulp'),
@@ -30,58 +30,78 @@ var paths = {
     templates : 'static/templates/'
 };
 
-
-/**
- *
- * Iconfont
- *
- ********************************************************
- */
-
-// Settings / Options
-var iconsSettings = {
-    template    : paths.templates + '_iconfont.scss',
-    fileName    : '__iconfont.scss',
-    paths : {
-        src     : paths.images + 'icons/svgs/*.svg',
-        dest    : paths.scss + 'utilities/',
-        watch   : paths.images + 'icons/svgs/*.svg',
-        cssurl  : '../fonts/'
-    }
-};
-
-// Require Task
-var iconfont = require( paths.tasks + 'gulp.iconfont' )( gulp, _, plugins, paths, iconsSettings );
+// Get (require tasks)
+function getTask( task, settings ) {
+    return require( paths.tasks + task )( gulp, _, plugins, paths, settings );
+}
 
 
 /**
  *
  * Sass
  *
- ********************************************************
- */
+ *********************************************************/
 
 // Settings / Options
 var sassSettings = {
-    outputStyle : 'nested'
+    sass : {
+        outputStyle : 'nested'
+    }
 };
-
 // Require Task
-var sass = require( paths.tasks + 'gulp.sass' )( gulp, _, plugins, paths, sassSettings );
+var sass = getTask( 'gulp.sass', sassSettings );
 
 
+/**
+ *
+ * Iconfont
+ *
+ *********************************************************/
+
+// Settings / Options
+var iconsSettings = {
+    template : paths.templates + '_iconfont-template.scss',
+    iconfont : {
+        fileName : '__iconfont.scss',
+        fontPath : '../fonts/'
+    },
+    paths : {
+        src  : paths.images + 'icons/svgs/*.svg',
+        dest : paths.fonts,
+        css  : paths.scss + 'functions/'
+    }
+};
+// Require Tasks
+var iconfont = getTask( 'gulp.iconfont', iconsSettings );
+
+
+/**
+ *
+ * Imagemin
+ *
+ *********************************************************/
+
+// Settings / Options
+var imageminSettings = {
+    paths : {
+        src   : paths.images + '**/*',
+        dest  : paths.images
+    }
+};
+// Require Task
+var imagemin = getTask( 'gulp.imageminconfont', imageminSettings );
 
 
 /**
  *
  * Watch
  *
- ********************************************************
- */
+ *********************************************************/
 
-gulp.task('watch', function() {
-    iconfont;
-    sass;
+//
+gulp.task('watch', ['sass', 'iconfont'], function () {
+    gulp.watch(sass.settings.paths.src, ['sass']);
+    gulp.watch(iconfont.settings.paths.src, ['iconfont']);
     //livereload.listen();
 });
 

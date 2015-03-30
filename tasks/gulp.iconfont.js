@@ -13,8 +13,6 @@
  *      - https://github.com/mikaelbr/gulp-notify
  *      - https://github.com/hparra/gulp-rename
  *
- * Copyright 2015 Jeff Waterfall
- *
  */
 
 module.exports = function( gulp, _, plugins, paths, settings ) {
@@ -22,56 +20,64 @@ module.exports = function( gulp, _, plugins, paths, settings ) {
 
     // Default settings
     var defaults = {
-        fontName    : 'icons',
-        cssClass    : 'i',
-        template    : './templates/_iconfont.scss',
-        fileName    : '_icons.scss',
+        template : './templates/_iconfont.scss',
+        iconfont : {
+            fontName  : 'icons',
+            className : 'i',
+            fileName  : '_icons.scss',
+            fontPath  : '../fonts/' // css "url" - relative or absolute from css file
+        },
         paths : {
-            src     : './svgs/*.svg',
-            dest    : './scss/',
-            watch   : './svgs/*.svg',
-            fonts   : './fonts/',
-            cssurl  : '../fonts/' // relative from css file, or absolute
+            src  : './svgs/*.svg',
+            dest : './fonts/',
+            css  : './scss/'
         }
     };
     // Extend defaults with settings params
-    settings = _.assign(defaults, settings);
+    settings = _.merge(defaults, settings);
 
     // Icon font task
-    gulp.task('iconfont', function() {
+    var task = gulp.task('iconfont', function() {
         gulp.src( settings.paths.src )
             .pipe( plugins.iconfont({
-                fontName : settings.fontName
+                fontName : settings.iconfont.fontName
             }))
             .on('codepoints', function( codepoints, options ) {
                 gulp.src( settings.template )
-                    .pipe( plugins.consolidate( 'lodash', {
-                        glyphs    : codepoints,
-                        fontName  : settings.fontName,
-                        fontPath  : settings.paths.cssurl, // relative from dest
-                        className : settings.cssClass
-                    }))
-                    .pipe( plugins.rename( settings.fileName ) )
-                    .pipe( gulp.dest( settings.paths.dest ) );
+                    .pipe( plugins.consolidate( 'lodash', _.merge(settings.iconfont, { glyphs : codepoints } ) ) )
+                    .pipe( plugins.rename( settings.iconfont.fileName ) )
+                    .pipe( gulp.dest( settings.paths.css ) );
             })
             .on('codepoints', function( codepoints, options ) {
                 // CSS templating, e.g.
                 console.log( codepoints, options );
             })
-            .pipe( gulp.dest( paths.fonts ) )
+            .pipe( gulp.dest( settings.paths.dest ) )
             .pipe( plugins.notify({
                 message : 'Iconfont task complete'
             }));
     });
 
+    //return task;
+
     // Watch task
-    var watchIcons = gulp.watch( settings.paths.watch, ['iconfont'] );
+    //var watch = gulp.watch( settings.paths.watch, ['iconfont'] );
 
     // Watch events
-    watchIcons.on('change', function(event) {
+    /*watch.on('change', function(event) {
        console.log('Event type: ' + event.type); // added, changed, or deleted
        console.log('Event path: ' + event.path); // The path of the modified file
-    });
+    });*/
 
-    return watchIcons;
+/*console.log('-----------------');
+console.log(task);
+console.log('-----------------');
+console.log(watch);
+console.log('-----------------');*/
+
+/*console.log('-----------------');
+console.log(task, settings.paths.src);
+console.log('-----------------');*/
+
+    return { task: task, settings: settings };
 };

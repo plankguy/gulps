@@ -11,8 +11,6 @@
  *      - https://github.com/gulpjs/gulp-util
  *      - https://github.com/mikaelbr/gulp-notify
  *
- * Copyright 2015 Jeff Waterfall
- *
  */
 
 module.exports = function( gulp, _, plugins, paths, settings ) {
@@ -20,8 +18,10 @@ module.exports = function( gulp, _, plugins, paths, settings ) {
 
     // Default settings
     var defaults = {
-        outputStyle : 'compressed',
-        precision   : 3,
+        sass : {
+            outputStyle : 'compressed',
+            precision   : 3
+        },
         paths : {
             src     : paths.scss + '**/*.{scss,sass}',
             watch   : paths.scss + '**/*',
@@ -29,14 +29,14 @@ module.exports = function( gulp, _, plugins, paths, settings ) {
         autoprefixer: 'last 2 versions'
     };
     // Extend defaults with settings params
-    settings = _.assign(defaults, settings);
+    settings = _.merge(defaults, settings);
 
     // Sass task
-    gulp.task('sass', function () {
+    var task = gulp.task('sass', function () {
         gulp.src( settings.paths.src )
             .pipe( plugins.sass({
-                outputStyle     : settings.outputStyle,
-                precision       : settings.precision,
+                outputStyle     : settings.sass.outputStyle,
+                precision       : settings.sass.precision,
                 errLogToConsole : true
             }))
             .pipe( plugins.autoprefixer( settings.autoprefixer ) )
@@ -51,14 +51,6 @@ module.exports = function( gulp, _, plugins, paths, settings ) {
             }));
     });
 
-    // Watch task
-    var watchSass = gulp.watch( settings.paths.watch, ['sass'] );
-
-    // Watch events
-    watchSass.on('change', function(event) {
-       console.log('Event type: ' + event.type); // added, changed, or deleted
-       console.log('Event path: ' + event.path); // The path of the modified file
-    });
-
-    return watchSass;
+    // Return the task and settings
+    return { task: task, settings: settings };
 };
