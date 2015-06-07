@@ -27,7 +27,7 @@ var paths = {
     scss      : 'static/scss/',
     js        : 'static/js/',
     fonts     : 'static/fonts/',
-    templates : 'static/templates/'
+    templates : 'static/scss/templates/'
 };
 
 // Get (require tasks)
