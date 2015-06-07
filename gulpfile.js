@@ -89,7 +89,7 @@ var imageminSettings = {
     }
 };
 // Require Task
-var imagemin = getTask( 'gulp.imageminconfont', imageminSettings );
+var imagemin = getTask( 'gulp.imagemin', imageminSettings );
 
 
 /**
