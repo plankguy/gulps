@@ -2,3 +2,7 @@ node_modules
 *.sublime-project
 *.sublime-workspace
 static/images/icons/svgs/#backup
+static/css
+static/fonts
+static/images/icons
+static/scss
