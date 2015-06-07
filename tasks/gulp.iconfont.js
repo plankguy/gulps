@@ -21,7 +21,7 @@ module.exports = function( gulp, _, plugins, paths, settings ) {
     // Default settings
     var defaults = {
         template : './templates/_iconfont.scss',
-        iconfont : {
+        iconfontOptions : {
             fontName  : 'icons',
             className : 'i',
             fileName  : '_icons.scss',
@@ -39,18 +39,16 @@ module.exports = function( gulp, _, plugins, paths, settings ) {
     // Icon font task
     var task = gulp.task('iconfont', function() {
         gulp.src( settings.paths.src )
-            .pipe( plugins.iconfont({
-                fontName : settings.iconfont.fontName
-            }))
+            .pipe( plugins.iconfont(settings.iconfontOptions) )
             .on('codepoints', function( codepoints, options ) {
                 gulp.src( settings.template )
-                    .pipe( plugins.consolidate( 'lodash', _.merge(settings.iconfont, { glyphs : codepoints } ) ) )
-                    .pipe( plugins.rename( settings.iconfont.fileName ) )
+                    .pipe( plugins.consolidate( 'lodash', _.merge(settings.iconfontOptions, { glyphs : codepoints } ) ) )
+                    .pipe( plugins.rename( settings.iconfontOptions.fileName ) )
                     .pipe( gulp.dest( settings.paths.css ) );
             })
             .on('codepoints', function( codepoints, options ) {
                 // CSS templating, e.g.
-                console.log( codepoints, options );
+//                console.log( codepoints, options );
             })
             .pipe( gulp.dest( settings.paths.dest ) )
             .pipe( plugins.notify({

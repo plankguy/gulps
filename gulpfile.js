@@ -20,6 +20,7 @@ var gulp        = require('gulp'),
 
 // Define default paths
 var paths = {
+    abs       : __dirname + '/', // /Users/you/path/to/this
     tasks     : './tasks/',
     static    : 'static/',
     images    : 'static/images/',
@@ -61,9 +62,10 @@ var sass = getTask( 'gulp.sass', sassSettings );
 // Settings / Options
 var iconsSettings = {
     template : paths.templates + '_iconfont-template.scss',
-    iconfont : {
+    iconfontOptions : {
         fileName : '__iconfont.scss',
-        fontPath : '../fonts/'
+        fontPath : paths.abs + paths.fonts,
+        normalize: true
     },
     paths : {
         src  : paths.images + 'icons/svgs/*.svg',
@@ -99,9 +101,9 @@ var imagemin = getTask( 'gulp.imagemin', imageminSettings );
  *********************************************************/
 
 //
-gulp.task('watch', ['sass', 'iconfont'], function () {
+gulp.task('watch', ['sass'], function () {
     gulp.watch(sass.settings.paths.src, ['sass']);
-    gulp.watch(iconfont.settings.paths.src, ['iconfont']);
+    //gulp.watch(iconfont.settings.paths.src, ['iconfont']);
     //livereload.listen();
 });
 
