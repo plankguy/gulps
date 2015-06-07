@@ -5,4 +5,4 @@ static/images/icons/svgs/#backup
 static/css
 static/fonts
 static/images/icons
-static/scss
+!static/scss/templates
