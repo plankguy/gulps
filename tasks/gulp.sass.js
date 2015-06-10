@@ -18,13 +18,14 @@ module.exports = function( gulp, _, plugins, paths, settings ) {
 
     // Default settings
     var defaults = {
-        sass : {
-            outputStyle : 'compressed',
-            precision   : 3
+        sassOptions : {
+            outputStyle     : 'nested',
+            precision       : 3,
+            errLogToConsole : false
         },
         paths : {
-            src     : paths.scss + '**/*.{scss,sass}',
-            watch   : paths.scss + '**/*',
+            src   : 'static/scss/**/*.{scss,sass}',
+            dest  : 'static/css'
         },
         autoprefixer: 'last 2 versions'
     };
@@ -34,23 +35,22 @@ module.exports = function( gulp, _, plugins, paths, settings ) {
     // Sass task
     var task = gulp.task('sass', function () {
         gulp.src( settings.paths.src )
-            .pipe( plugins.sass({
-                outputStyle     : settings.sass.outputStyle,
-                precision       : settings.sass.precision,
-                errLogToConsole : true
-            }))
+            .pipe( plugins.sass(settings.sassOptions)
+                .on('error', function(error) {
+                    return plugins.notify().write("Sass error: " + error.message + ' in ' + error.fileName.match(/[^\\/]+$/) + ' line ' + error.lineNumber);
+                })
+                .on('end', function() {
+                    return plugins.notify().write('Sass task complete');
+                })
+            )
             .pipe( plugins.autoprefixer( settings.autoprefixer ) )
             .pipe( plugins.sourcemaps.write() )
-//            .on( 'error', function( err ) {
-//                new plugins.gutil.PluginError('CSS', err, { showStack: true });//gutil.log( err );
-//                this.emit('end');
-//            })
-            .pipe( gulp.dest( paths.css ) )
-            .pipe( plugins.notify({
-                message : 'Sass task complete'
-            }));
+            .pipe( gulp.dest( settings.paths.dest ) );
     });
 
     // Return the task and settings
-    return { task: task, settings: settings };
+    return { 
+        task: task, 
+        settings: settings
+    };
 };
