@@ -20,18 +20,26 @@ var gulp        = require('gulp'),
 
 // Define default paths
 var paths = {
-    abs       : __dirname + '/', // /Users/you/path/to/this
-    tasks     : './tasks/',
-    static    : 'static/',
-    images    : 'static/images/',
-    css       : 'static/css/',
-    scss      : 'static/scss/',
-    js        : 'static/js/',
-    fonts     : 'static/fonts/',
-    templates : 'static/scss/templates/'
-};
+        abs       : __dirname + '/', // /Users/you/path/to/this
+        tasks     : './tasks/',
+        static    : 'static/',
+        images    : 'static/images/',
+        css       : 'static/css/',
+        scss      : 'static/scss/',
+        js        : 'static/js/',
+        fonts     : 'static/fonts/',
+        templates : 'static/scss/templates/'
+    },
+    watchTasks = [];
 
-// Get (require tasks)
+
+/**
+ *
+ * Get tasks
+ * @return object - node module
+ *
+ */
+
 function getTask( task, settings ) {
     return require( paths.tasks + task )( gulp, _, plugins, paths, settings );
 }
@@ -45,12 +53,14 @@ function getTask( task, settings ) {
 
 // Settings / Options
 var sassSettings = {
-    sass : {
+    sassOptions : {
         outputStyle : 'nested'
     }
 };
 // Require Task
 var sass = getTask( 'gulp.sass', sassSettings );
+// Add task to watch array [optional]
+watchTasks.push('sass');
 
 
 /**
@@ -75,6 +85,8 @@ var iconsSettings = {
 };
 // Require Tasks
 var iconfont = getTask( 'gulp.iconfont', iconsSettings );
+// Add task to watch array [optional]
+watchTasks.push('iconfont');
 
 
 /**
@@ -86,12 +98,14 @@ var iconfont = getTask( 'gulp.iconfont', iconsSettings );
 // Settings / Options
 var imageminSettings = {
     paths : {
-        src   : paths.images + '**/*',
-        dest  : paths.images
+        src  : [paths.images + '**/*.{jpg,jpeg,png,gif}', '!' + paths.images + 'icons/svgs/**/*'],
+        dest : paths.images
     }
 };
 // Require Task
 var imagemin = getTask( 'gulp.imagemin', imageminSettings );
+// Add task to watch array [optional]
+//watchTasks.push('imagemin');
 
 
 /**
@@ -100,13 +114,17 @@ var imagemin = getTask( 'gulp.imagemin', imageminSettings );
  *
  *********************************************************/
 
-//
-gulp.task('watch', ['sass'], function () {
-    gulp.watch(sass.settings.paths.src, ['sass']);
-    //gulp.watch(iconfont.settings.paths.src, ['iconfont']);
-    //livereload.listen();
+gulp.task('watch', watchTasks, function () {
+    watchTasks.forEach(function (task, index, array) {
+        gulp.watch( eval(task).settings.paths.src, [task] )
+            .on('change', function(event) {
+                console.log(event.path + ' ' + event.type);
+            }).on('error', function(err) {
+                console.log('Error: ' + err);
+                this.emit('end');
+            });
+    });
 });
-
 // Default task
 gulp.task('default', function() {
     gulp.start('watch');

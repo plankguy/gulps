@@ -28,7 +28,7 @@ module.exports = function( gulp, _, plugins, paths, settings ) {
             fontPath  : '../fonts/' // css "url" - relative or absolute from css file
         },
         paths : {
-            src  : './svgs/*.svg',
+            src  : './svgs/**/*.svg',
             dest : './fonts/',
             css  : './scss/'
         }
