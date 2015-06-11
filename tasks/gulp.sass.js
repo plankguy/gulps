@@ -24,7 +24,7 @@ module.exports = function( gulp, _, plugins, paths, settings, env ) {
             errLogToConsole : false
         },
         autoprefixer: {
-            browsers: ['last 2 versions'],
+            browsers: ['last 3 versions'],
             cascade: false
         },
         sourcemaps: {
