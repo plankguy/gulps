@@ -13,7 +13,7 @@
  *
  */
 
-module.exports = function( gulp, _, plugins, paths, settings ) {
+module.exports = function( gulp, _, plugins, paths, settings, env ) {
     "use strict"; 
 
     // Default settings
@@ -34,7 +34,7 @@ module.exports = function( gulp, _, plugins, paths, settings ) {
                 debug      : true
             },
             write : {
-                addComment : true
+                addComment : ( env === 'development' ) ? true : false
             }
         },
         paths : {

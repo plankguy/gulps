@@ -47,7 +47,7 @@ var env   = process.env.NODE_ENV || 'development',
  */
 
 function getTask( task, settings ) {
-    return require( paths.tasks + task )( gulp, _, plugins, paths, settings );
+    return require( paths.tasks + task )( gulp, _, plugins, paths, settings, env );
 }
 
 
