@@ -8,7 +8,11 @@
  *      - https://github.com/gulpjs/gulp
  *      - https://lodash.com/
  *      - https://github.com/jackfranklin/gulp-load-plugins
- *
+ * @usage:
+ *      Development:
+ *          gulp
+ *      Production:
+ *          NODE_ENV=production gulp
  */
 
 "use strict";
@@ -19,7 +23,8 @@ var gulp        = require('gulp'),
     plugins     = require('gulp-load-plugins')();
 
 // Define default paths
-var paths = {
+var env   = process.env.NODE_ENV || 'development',
+    paths = {
         abs       : __dirname + '/', // /Users/you/path/to/this
         tasks     : './tasks/',
         static    : 'static/',
@@ -28,7 +33,8 @@ var paths = {
         scss      : 'static/scss/',
         js        : 'static/js/',
         fonts     : 'static/fonts/',
-        templates : 'static/scss/templates/'
+        templates : 'static/scss/templates/',
+        sourcemaps: 'static/sourcemaps/'
     },
     watchTasks = [];
 
@@ -53,8 +59,16 @@ function getTask( task, settings ) {
 
 // Settings / Options
 var sassSettings = {
-    sassOptions : {
-        outputStyle : 'nested'
+    sass : {
+        outputStyle : ( env === 'development' ) ? 'expanded' : 'compressed'
+    },
+    sourcemaps : {
+        path : '../sourcemaps/css',
+    },
+    paths : {
+        src        : paths.scss + '**/*.{scss,sass}',
+        dest       : paths.css,
+        sourcemaps : paths.sourcemaps + 'css'
     }
 };
 // Require Task
@@ -119,7 +133,8 @@ gulp.task('watch', watchTasks, function () {
         gulp.watch( eval(task).settings.paths.src, [task] )
             .on('change', function(event) {
                 console.log(event.path + ' ' + event.type);
-            }).on('error', function(err) {
+            })
+            .on('error', function(err) {
                 console.log('Error: ' + err);
                 this.emit('end');
             });
