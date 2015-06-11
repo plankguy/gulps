@@ -86,7 +86,7 @@ watchTasks.push('sass');
 // Settings / Options
 var iconsSettings = {
     template : paths.templates + '_iconfont-template.scss',
-    iconfontOptions : {
+    iconfont : {
         fileName : '__iconfont.scss',
         fontPath : paths.abs + paths.fonts,
         normalize: true

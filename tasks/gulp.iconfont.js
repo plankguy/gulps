@@ -15,13 +15,13 @@
  *
  */
 
-module.exports = function( gulp, _, plugins, paths, settings ) {
+module.exports = function( gulp, _, plugins, paths, settings, env ) {
     "use strict"; 
 
     // Default settings
     var defaults = {
         template : './templates/_iconfont.scss',
-        iconfontOptions : {
+        iconfont : {
             fontName  : 'icons',
             className : 'i',
             fileName  : '_icons.scss',
@@ -39,11 +39,11 @@ module.exports = function( gulp, _, plugins, paths, settings ) {
     // Icon font task
     var task = gulp.task('iconfont', function() {
         gulp.src( settings.paths.src )
-            .pipe( plugins.iconfont(settings.iconfontOptions) )
+            .pipe( plugins.iconfont(settings.iconfont) )
             .on('codepoints', function( codepoints, options ) {
                 gulp.src( settings.template )
-                    .pipe( plugins.consolidate( 'lodash', _.merge(settings.iconfontOptions, { glyphs : codepoints } ) ) )
-                    .pipe( plugins.rename( settings.iconfontOptions.fileName ) )
+                    .pipe( plugins.consolidate( 'lodash', _.merge(settings.iconfont, { glyphs : codepoints } ) ) )
+                    .pipe( plugins.rename( settings.iconfont.fileName ) )
                     .pipe( gulp.dest( settings.paths.css ) );
             })
             .on('codepoints', function( codepoints, options ) {
