@@ -11,7 +11,7 @@
  *
  */
 
-module.exports = function( gulp, _, plugins, paths, settings ) {
+module.exports = function( gulp, _, plugins, paths, settings, env ) {
     "use strict"; 
 
     // Default settings
@@ -22,26 +22,32 @@ module.exports = function( gulp, _, plugins, paths, settings ) {
             interlaced        : true
         },
         paths : {
-            src  : './images/**/*',
+            src  : './images/**/*.{jpg,jpeg,png,gif}',
             dest : './images',
+            cache: './.cache/imagemin'
         }
     };
     // Extend defaults with settings params
-    settings = _.merge(defaults, settings);
+    settings = _.merge(defaults, settings); 
 
     // Imagemin task
     var task = gulp.task('imagemin', function() {
+
         gulp.src( settings.paths.src )
-            //.pipe( plugins.changed( settings.paths.dest ) )
+            .pipe( plugins.changed( settings.paths.cache ) )
             .pipe( plugins.imagemin( settings.imagemin ) )
+            .pipe( gulp.dest( settings.paths.cache ) )
             .pipe( gulp.dest( settings.paths.dest ) )
             .pipe( plugins.notify({
                 message: 'Imagemin task complete'
-            }));
+            }) );
     });
 
     // Return the task and settings
-    return { task: task, settings: settings };
+    return { 
+        task: task, 
+        settings: settings 
+    };
 
     // Watch task?
     //var watchImages = gulp.watch( settings.paths.watch, ['imagemin'] );
