@@ -112,14 +112,17 @@ watchTasks.push('iconfont');
 // Settings / Options
 var imageminSettings = {
     paths : {
-        src  : [paths.images + '**/*.{jpg,jpeg,png,gif}', '!' + paths.images + 'icons/svgs/**/*'],
+        src  : [
+            paths.images + '**/*.{jpg,jpeg,png,gif}',
+            '!' + paths.images + 'icons/svgs/**/*'
+        ],
         dest : paths.images
     }
 };
 // Require Task
 var imagemin = getTask( 'gulp.imagemin', imageminSettings );
 // Add task to watch array [optional]
-//watchTasks.push('imagemin');
+watchTasks.push('imagemin');
 
 
 /**
