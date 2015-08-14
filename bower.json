@@ -1,0 +1,25 @@
+{
+  "name": "gulps",
+  "version": "0.0.0",
+  "homepage": "https://github.com/plankguy/gulps",
+  "authors": [
+    "Jeff Waterfall <jeff@fallwater.ca>"
+  ],
+  "description": "A collection of gulp tasks",
+  "main": "gulpfile.js",
+  "moduleType": [
+    "node"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "static",
+    "*.sublime-project",
+    "*.sublime-workspace",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
