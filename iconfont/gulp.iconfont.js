@@ -30,7 +30,7 @@ module.exports = function( gulp, _, plugins, paths, settings, env ) {
         paths : {
             src  : './svgs/**/*.svg',
             dest : './fonts/',
-            css  : './scss/'
+            styles  : './scss/'
         }
     };
     // Extend defaults with settings params
@@ -44,7 +44,7 @@ module.exports = function( gulp, _, plugins, paths, settings, env ) {
                 gulp.src( settings.template )
                     .pipe( plugins.consolidate( 'lodash', _.merge(settings.iconfont, { glyphs : codepoints } ) ) )
                     .pipe( plugins.rename( settings.iconfont.fileName ) )
-                    .pipe( gulp.dest( settings.paths.css ) );
+                    .pipe( gulp.dest( settings.paths.styles ) );
             })
             .on('codepoints', function( codepoints, options ) {
                 // CSS templating, e.g.
